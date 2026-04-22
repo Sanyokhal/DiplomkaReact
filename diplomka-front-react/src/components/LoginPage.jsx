@@ -1,11 +1,17 @@
 import {useState} from "react";
 import '../styles/loginPage.scss';
+import UserStoreProvider from "../store/UserStoreProvider.js";
+import {useNavigate} from 'react-router-dom';
+import request from './request_wrap.js';
 
 function LoginPage() {
     const [form, setForm] = useState({
         phone: '',
         password: ''
     });
+    const navigate = useNavigate();
+    const [inputState, setInputState] = useState("password");
+    const setUser = UserStoreProvider(state => state.setUser);
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -16,8 +22,21 @@ function LoginPage() {
         }));
     }
 
-    function submitData() {
-        console.log(form)
+    function changeType() {
+        if (inputState == 'password') {
+            setInputState('text')
+        } else {
+            setInputState('password')
+        }
+    }
+
+    async function submitData() {
+        let user_obj = {
+            "phone": form.phone,
+            "password": form.password
+        }
+        let res = await request("/user/login", 'post', user_obj)
+       navigate('/dishes')
     }
 
     return (
@@ -32,8 +51,8 @@ function LoginPage() {
                            onChange={handleChange}/>
                 </div>
                 <div className="row">
-                    <p>Пароль</p>
-                    <input type="password" name='password' value={form.password}
+                    <p>Пароль <small onClick={changeType}>Глянути пароль</small></p>
+                    <input type={inputState} name='password' value={form.password}
                            onChange={handleChange}/>
                 </div>
                 <button onClick={submitData}>Увійти</button>
