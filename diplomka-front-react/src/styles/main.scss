@@ -1,3 +1,111 @@
-.shoto {
-  background-color: red;
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #111111;
+}
+
+.landing {
+  max-width: 100vw;
+  padding: 0 5vw;
+
+  .menu {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222222;
+
+    .logo-text {
+      img {
+        height: 100px;
+      }
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      color: white;
+    }
+
+    .order-btn {
+      width: 100px;
+      height: 30px;
+      border-radius: 3px;
+      border: unset;
+      background-color: #da510f;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
+  .dishes-carousel {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+
+.dish-card {
+  width: 300px;
+  padding-bottom: 10px;
+  position: relative;
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 1;
+  max-height: 300px;
+  min-width: 300px;
+  background-color: #222222;
+  border: 1px solid #333333;
+
+  img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    max-width: 100%;
+    object-fit: cover;
+    margin-bottom: 5px;
+  }
+
+  .name {
+    padding-left: 10px;
+  }
+
+  .price-weight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 10px;
+
+    b {
+      font-size: 18px;
+      color: #da510f;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
+
+  .likes-qty {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    border-radius: 3px;
+    padding: 2px 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+  }
 }
