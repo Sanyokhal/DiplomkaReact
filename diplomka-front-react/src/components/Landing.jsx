@@ -1,84 +1,25 @@
 import DishCard from "./dishCard.jsx";
+import {useEffect, useState} from "react";
+import request from "./request_wrap.js";
+import {useNavigate} from "react-router-dom";
 
 function landing() {
-    const items = [{
-        "id": 1,
-        "name": "Каша вівсяна",
-        "description": "З молоком і цукром",
-        "price": 90,
-        "is_favorite": false,
-        "img": null,
-        "likes": 12,
-        "weight_in_grams": 300,
-        "ingredients": [
-            "вівсянка",
-            "молоко",
-            "цукор",
-            "вода"
-        ]
-    },
-        {
-            "id": 2,
-            "name": "Омлет",
-            "description": "Класичний омлет",
-            "price": 110,
-            "is_favorite": true,
-            "img": null,
-            "likes": 30,
-            "weight_in_grams": 250,
-            "ingredients": [
-                "яйця",
-                "молоко",
-                "сіль"
-            ]
-        },
-        {
-            "id": 3,
-            "name": "Сирники",
-            "description": "Зі сметаною",
-            "price": 130,
-            "is_favorite": false,
-            "img": null,
-            "likes": 25,
-            "weight_in_grams": 200,
-            "ingredients": [
-                "сир",
-                "яйця",
-                "борошно",
-                "цукор"
-            ]
-        },
-        {
-            "id": 4,
-            "name": "Тости з авокадо",
-            "description": "З хрустким хлібом",
-            "price": 150,
-            "is_favorite": true,
-            "img": null,
-            "likes": 40,
-            "weight_in_grams": 220,
-            "ingredients": [
-                "хліб",
-                "авокадо",
-                "сіль"
-            ]
-        },
-        {
-            "id": 5,
-            "name": "Панкейки",
-            "description": "З сиропом",
-            "price": 140,
-            "is_favorite": false,
-            "img": null,
-            "likes": 18,
-            "weight_in_grams": 280,
-            "ingredients": [
-                "борошно",
-                "яйця",
-                "молоко",
-                "сироп"
-            ]
-        }];
+    const [dishes, setDishes] = useState([])
+    const navigate = useNavigate();
+
+    function routeToOrder() {
+        navigate('/dishes')
+    }
+
+    useEffect(() => {
+        async function getPopular() {
+            let res = await request('/dishes/popular', 'get', {})
+            console.log(res)
+            setDishes(res)
+        }
+
+        getPopular()
+    }, []);
     return (
         <div className="landing">
             <div className="menu">
@@ -91,12 +32,12 @@ function landing() {
                         <p>Завжди ок</p>
                     </div>
                 </div>
-                <button className="order-btn">Замовити</button>
+                <button className="order-btn" onClick={routeToOrder}>Замовити</button>
             </div>
             <div className="best-dishes">
                 <h2>Популярні страви</h2>
                 <div className="dishes-carousel">
-                    {items.map((item, index) => (
+                    {dishes.map((item, index) => (
                         <DishCard dish={item} key={`dsh_${index}`} max_width={350}/>
                     ))}
                 </div>

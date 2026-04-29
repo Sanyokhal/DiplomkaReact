@@ -3,12 +3,13 @@ import UserStoreProvider from "./../store/UserStoreProvider.js";
 import MenuComponent from "./menuComponent.jsx";
 import ProfileComponent from "./profileComponent.jsx";
 import request from "./request_wrap.js";
+import DishCard from "./dishCard.jsx";
+import './../styles/dishesPage.scss';
 
 function DishesPage() {
     const [dishes, setDishes] = useState({})
     const [restaurant, setRestaurant] = useState(undefined)
     const [restaurants, setRestaurants] = useState([]);
-    const addToCart = UserStoreProvider(state => state.addToCart);
 
     async function getRestaurants() {
         let restaurants = await request('/dishes/restaurants', 'get')
@@ -77,14 +78,7 @@ function DishesPage() {
                         <p>{group.group_description}</p>
                         <div className="dishes-list">
                             {group.items.map((item, i) => (
-                                <div key={item.id} className="dish">
-                                    <img src="./images/default_dish.jpg" alt=""/>
-                                    <h4>{item.name}</h4>
-                                    <p>{item.description}</p>
-                                    <span>{item.price} грн</span>
-                                    <button onClick={() => addToCart(item)}>Додати
-                                    </button>
-                                </div>
+                                <DishCard dish={item} max_width={400} key={`dish_${item.id}`}/>
                             ))}
                         </div>
                     </div>

@@ -1,6 +1,5 @@
 import {useState} from "react";
 import '../styles/loginPage.scss';
-import UserStoreProvider from "../store/UserStoreProvider.js";
 import {useNavigate} from 'react-router-dom';
 import request from './request_wrap.js';
 
@@ -11,7 +10,6 @@ function LoginPage() {
     });
     const navigate = useNavigate();
     const [inputState, setInputState] = useState("password");
-    const setUser = UserStoreProvider(state => state.setUser);
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -36,7 +34,7 @@ function LoginPage() {
             "password": form.password
         }
         let res = await request("/user/login", 'post', user_obj)
-       navigate('/dishes')
+        navigate('/dishes')
     }
 
     return (

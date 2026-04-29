@@ -26,11 +26,11 @@ function App() {
             }
         }
 
-        // loadUser();
+        loadUser();
     }, []);
-    // if (user === undefined) {
-    //     return <div>Loading...</div>;
-    // }
+    if (user === undefined) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <BrowserRouter>

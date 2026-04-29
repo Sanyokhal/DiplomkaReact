@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import LocationPicker from "./LocationPicker.jsx";
 import ProfileComponent from "./profileComponent.jsx";
 import userStoreProvider from "../store/UserStoreProvider.js";
 import {useNavigate} from 'react-router-dom';
+import request from "./request_wrap.js";
 
 function CheckOrderPage() {
     const [location, setLocation] = useState(null);
@@ -17,18 +18,20 @@ function CheckOrderPage() {
         return total;
     }
 
-    function submitOrder() {
-        let obj = {}
-        if (cart.length === 0) {
-            alert("Кошик пустий");
-            return;
+    useEffect(() => {
+        submitOrder()
+    }, [location]);
+
+    async function submitOrder() {
+        let data_to_send = {
+            restaurant: {
+                lat: 48.62498400,
+                lng: 22.30044100
+            },
+            customer: location
         }
-        cart.forEach((item) => {
-            obj[item.id] = item.quantity;
-        })
-        console.log(obj)
-        // send to backend
-        navigate("/order-history")
+        console.log(data_to_send)
+        let res = await request("/orders/calculate-delivery-fee", 'post', data_to_send)
     }
 
     return (
