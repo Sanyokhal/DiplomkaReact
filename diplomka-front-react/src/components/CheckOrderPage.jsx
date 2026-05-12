@@ -18,6 +18,7 @@ function CheckOrderPage() {
     const [restaurants, setRestaurants] = useState([]);
     const restaurant = UserStoreProvider(state => state.restaurant)
     const setRestaurant = UserStoreProvider(state => state.setRestaurant)
+    const [orderSubmited, setOrderSubmited] = useState(false);
 
     async function getRestaurants() {
         let restaurants = await request('/dishes/restaurants', 'get')
@@ -71,6 +72,10 @@ function CheckOrderPage() {
         if (cart.length == 0) {
             navigate('/dishes')
         } else {
+            if (orderSubmited) {
+                return;
+            }
+            setOrderSubmited(true);
             if (isPickup) {
                 let data_to_send = {
                     restaurant_id: 1,
