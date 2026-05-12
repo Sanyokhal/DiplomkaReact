@@ -1,21 +1,23 @@
 import {useEffect, useState} from "react";
-import UserStoreProvider from "./../store/UserStoreProvider.js";
 import MenuComponent from "./menuComponent.jsx";
-import ProfileComponent from "./profileComponent.jsx";
 import request from "./request_wrap.js";
 import DishCard from "./dishCard.jsx";
 import './../styles/dishesPage.scss';
+import UserStoreProvider from "../store/UserStoreProvider.js";
 
 function DishesPage() {
     const [dishes, setDishes] = useState({})
-    const [restaurant, setRestaurant] = useState(undefined)
     const [restaurants, setRestaurants] = useState([]);
+    const restaurant = UserStoreProvider(state => state.restaurant)
+    const setRestaurant = UserStoreProvider(state => state.setRestaurant)
 
     async function getRestaurants() {
         let restaurants = await request('/dishes/restaurants', 'get')
         setRestaurants(restaurants)
-        if (restaurants.length > 0) {
-            setRestaurant(restaurants[0].id)
+        if (restaurant == undefined) {
+            if (restaurants.length > 0) {
+                setRestaurant(restaurants[0].id)
+            }
         }
     }
 
@@ -47,21 +49,7 @@ function DishesPage() {
 
     return (
         <div className="dishes-page">
-            <div className="upper-part">
-                <div className="logo-text">
-                    <img
-                        src="https://cdn-media.choiceqr.com/prod-eat-chilipizza/logo/thumbnail_TzCxaUc-tBVEIpQ-FbvLxi_W-C-r.png"
-                        alt=""/>
-                    <div className="text">
-                        <h4>Chilli pizza</h4>
-                        <p>Завжди ок</p>
-                    </div>
-                </div>
-                <div className="menu">
-                    <MenuComponent/>
-                    <ProfileComponent/>
-                </div>
-            </div>
+            <MenuComponent/>
             <div className="search-bar">
                 <input type="text" placeholder="Пошук" value={search}
                        onChange={(e) => setSearch(e.target.value)}/>
@@ -78,7 +66,7 @@ function DishesPage() {
                         <p>{group.group_description}</p>
                         <div className="dishes-list">
                             {group.items.map((item, i) => (
-                                <DishCard dish={item} max_width={400} key={`dish_${item.id}`}/>
+                                <DishCard dish={item} key={`dish_${item.id}`}/>
                             ))}
                         </div>
                     </div>

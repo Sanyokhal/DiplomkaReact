@@ -1,20 +1,15 @@
 import DishCard from "./dishCard.jsx";
 import {useEffect, useState} from "react";
 import request from "./request_wrap.js";
-import {useNavigate} from "react-router-dom";
+import MenuComponent from "./menuComponent.jsx";
 
 function landing() {
     const [dishes, setDishes] = useState([])
-    const navigate = useNavigate();
 
-    function routeToOrder() {
-        navigate('/dishes')
-    }
 
     useEffect(() => {
         async function getPopular() {
             let res = await request('/dishes/popular', 'get', {})
-            console.log(res)
             setDishes(res)
         }
 
@@ -22,29 +17,60 @@ function landing() {
     }, []);
     return (
         <div className="landing">
-            <div className="menu">
-                <div className="logo-text">
-                    <img
-                        src="https://cdn-media.choiceqr.com/prod-eat-chilipizza/logo/thumbnail_TzCxaUc-tBVEIpQ-FbvLxi_W-C-r.png"
-                        alt=""/>
-                    <div className="text">
-                        <h4>Chilli pizza</h4>
-                        <p>Завжди ок</p>
-                    </div>
-                </div>
-                <button className="order-btn" onClick={routeToOrder}>Замовити</button>
-            </div>
+            <MenuComponent/>
+
+            <section className="landing-info-block landing-hero">
+                <h1 className="landing-info-title">Онлайн-меню для ресторану</h1>
+                <p className="landing-info-text">
+                    Це онлайн-меню, де користувач може переглядати страви, знайомитися з описом і швидко зробити
+                    замовлення.
+                </p>
+            </section>
+
             <div className="best-dishes">
                 <h2>Популярні страви</h2>
                 <div className="dishes-carousel">
                     {dishes.map((item, index) => (
-                        <DishCard dish={item} key={`dsh_${index}`} max_width={350}/>
+                        <DishCard dish={item} key={`dsh_${index}`} display_order={false}/>
                     ))}
                 </div>
             </div>
+
+            <section className="landing-info-block">
+                <h2 className="landing-info-title">Про ресторан</h2>
+                <p className="landing-info-text">
+                    Ресторан може показувати актуальне меню, ціни та опис страв, щоб клієнти завжди бачили реальну
+                    пропозицію.
+                </p>
+            </section>
+
+            <section className="landing-info-block">
+                <h2 className="landing-info-title">Як це працює</h2>
+                <p className="landing-info-text">
+                    Користувач відкриває меню, переглядає страви та їхню вартість, додає позиції й оформлює замовлення
+                    онлайн у кілька кліків.
+                </p>
+            </section>
+
+            <section className="landing-info-block">
+                <h2 className="landing-info-title">Переваги онлайн-меню</h2>
+                <p className="landing-info-text">
+                    Інтерфейс зроблено зручним для клієнтів: усе просто знайти, легко порівняти й швидко перейти до
+                    оформлення.
+                </p>
+            </section>
+
+            <section className="landing-info-block">
+                <h2 className="landing-info-title">Зручне замовлення</h2>
+                <p className="landing-info-text">
+                    Після вибору страв клієнт може одразу оформити замовлення онлайн, а ресторан отримує замовлення у
+                    зрозумілому форматі.
+                </p>
+            </section>
+
             <div className="agitate">
-                <h2>Харе щолкати носом паця, хавка жде, заходи і замовляй</h2>
-                <a href='/login'>Уввійти</a>
+                <h2>Смачно пахне? Заходь та замовляй онлайн</h2>
+                <a href='/login'>Увійти</a>
             </div>
         </div>
     )

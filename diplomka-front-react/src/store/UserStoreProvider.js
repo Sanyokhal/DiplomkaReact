@@ -2,9 +2,13 @@ import {create} from 'zustand';
 
 const useUserStore = create((set) => ({
     user: undefined,
+    admin: undefined,
     cart: [],
+    restaurant: undefined,
     setUser: (user) => set({user}),
+    setAdmin: (admin) => set({admin}),
     logout: () => set({user: null}),
+    logoutAdmin: () => set({admin: null}),
     clearCart: () => set({cart: []}),
     setCart: (cart) => set({cart: cart}),
     addToCart: (item) => {
@@ -24,6 +28,7 @@ const useUserStore = create((set) => ({
             };
         })
     },
+    setRestaurant: (restaurant) => set({restaurant: restaurant}),
     decreaseQuantity: (id) => {
         set((state) => ({
             cart: state.cart

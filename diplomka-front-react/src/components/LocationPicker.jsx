@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import {useCallback, useMemo, useState} from "react";
+import {GoogleMap, Marker, useJsApiLoader} from "@react-google-maps/api";
 
 const containerStyle = {
     width: "100%",
@@ -11,11 +11,11 @@ const defaultCenter = {
     lng: 21.2611,
 };
 
-export default function LocationPicker({ onChange }) {
+export default function LocationPicker({onChange,}) {
     const [position, setPosition] = useState(defaultCenter);
     const [map, setMap] = useState(null);
 
-    const { isLoaded, loadError } = useJsApiLoader({
+    const {isLoaded, loadError} = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: "AIzaSyC4mvKqFx7UpDau_aEpiTSTPZp9uCGEU6U",
     });
@@ -51,7 +51,6 @@ export default function LocationPicker({ onChange }) {
                 }
             },
             (err) => {
-                console.error(err);
                 alert("Не вдалося отримати локацію");
             },
             {
@@ -103,13 +102,12 @@ export default function LocationPicker({ onChange }) {
     }
 
     return (
-        <div>
-            <button type="button" onClick={handleUseMyLocation}>
-                Використати мою локацію
-            </button>
-
-            <div style={{ margin: "12px 0" }}>
-                <strong>lat:</strong> {position.lat} <strong>lng:</strong> {position.lng}
+        <div className="location-picker">
+            <div className="top-plank">
+                <h2>Оберіть адресу доставки</h2>
+                <button className="btn-orange" onClick={handleUseMyLocation}>
+                    Використати мою локацію
+                </button>
             </div>
 
             <GoogleMap

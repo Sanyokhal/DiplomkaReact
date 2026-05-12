@@ -1,6 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import '../styles/loginPage.scss';
+import {useNavigate} from "react-router-dom";
 import request from "./request_wrap.js";
+import MenuComponent from "./menuComponent.jsx";
+import UserStoreProvider from "../store/UserStoreProvider.js";
 
 function RegisterPage() {
     const [form, setForm] = useState({
@@ -9,6 +12,14 @@ function RegisterPage() {
         l_name: '',
         f_name: '',
     });
+    const user = UserStoreProvider(state => state.user)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/dishes');
+        }
+    }, [user]);
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -21,11 +32,11 @@ function RegisterPage() {
 
     async function submitData() {
         let resp = await request("/user/register", 'post', form);
-        console.log(resp);
     }
 
     return (
-        <div className="holder">
+        <div className="register">
+            <MenuComponent/>
             <div className="login-data">
                 <h3>Реєстрація</h3>
                 <p className='sub-h3'>Якщо ви зареєстровані, <a href="/login">увійдіть тут</a></p>
@@ -52,7 +63,7 @@ function RegisterPage() {
                     <input type="password" name='password' value={form.password} minLength="6"
                            onChange={handleChange}/>
                 </div>
-                <button onClick={submitData}>Зареєструватись</button>
+                <button className="btn-orange" onClick={submitData}>Зареєструватись</button>
             </div>
         </div>
     )
